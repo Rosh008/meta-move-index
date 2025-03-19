@@ -13,7 +13,11 @@ export default function Layout({ children }: LayoutProps) {
       <main className="w-full flex-1 xl:px-24 px-8 mx-auto mt-24">
         {children}
       </main>
-      <footer className="xl:px-24 px-8 mb-4">Footer</footer>
+      <footer className="xl:px-24 px-8 my-4">
+        <div className="text-[#A2A2A2] text-center text-sm ">
+          Copyright © 2025 Meta Move AI
+        </div>
+      </footer>
     </div>
   );
 }

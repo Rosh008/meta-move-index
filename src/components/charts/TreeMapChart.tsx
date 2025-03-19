@@ -4,14 +4,19 @@ import HighchartsTreeMap from "highcharts/modules/treemap";
 
 try {
   HighchartsTreeMap(Highcharts);
-} catch (e) {
-  console.error("tree graph error: ", e);
-}
+} catch (e) {}
 
 export default function TreeMapChart() {
   const options: Highcharts.Options = {
     chart: {
       type: "treemap",
+      backgroundColor: "transparent",
+    },
+    credits: {
+      enabled: false,
+    },
+    title: {
+      text: undefined,
     },
     series: [
       {
