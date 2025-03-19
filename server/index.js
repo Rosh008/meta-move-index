@@ -1,14 +1,19 @@
 import express from 'express';
+import bodyParser from "body-parser";
 import cors from 'cors';
+import connectDB from "./config/db.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import mindshareRoutes from './routes/mindShareRoutes.js';
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello from the backend!' });
-});
+connectDB();
+
+app.use("/api", projectRoutes);
+app.use("/api/mindshare", mindshareRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {
