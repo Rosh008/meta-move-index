@@ -2,7 +2,7 @@
 import { TwitterApi } from 'twitter-api-v2';
 import MindshareModel from '../models/mindshareModel.js';
 import MindshareView from '../view/mindshareView.js';
-
+import Mindshare from '../models/mindshare.js';
 
 // Twitter API credentials
 const client = new TwitterApi({
@@ -85,3 +85,48 @@ class MindshareController {
 }
 
 export default MindshareController;
+
+export const storeMindshare = async (req, res) => {
+  const { contractAddress, mindshareValue } = req.body;
+
+  if (!contractAddress || mindshareValue === undefined) {
+      return res.status(400).json({ message: 'Contract address and mindshare value are required' });
+  }
+
+  try {
+      // Check if the mindshare value for the contract already exists
+      let mindshare = await Mindshare.findOne({ contractAddress });
+
+      if (mindshare) {
+          // Update the existing mindshare value for the contract
+          mindshare.mindshareValue = mindshareValue;
+          mindshare.timestamp = Date.now(); // Update timestamp when the mindshare value is updated
+          await mindshare.save();
+          return res.status(200).json({ message: 'Mindshare value updated successfully', data: mindshare });
+      } else {
+          // Create a new entry for the contract address
+          mindshare = new Mindshare({ contractAddress, mindshareValue });
+          await mindshare.save();
+          return res.status(201).json({ message: 'Mindshare value stored successfully', data: mindshare });
+      }
+  } catch (error) {
+      console.error('Error storing mindshare value:', error);
+      res.status(500).json({ message: 'Error storing mindshare value', error: error.message });
+  }
+};
+
+export const getTopMindshares = async (req, res) => {
+try {
+    // Fetch the top 6 contracts with the highest mindshare values, sorted by mindshareValue in descending order
+    const topContracts = await Mindshare.find().sort({ mindshareValue: -1 }).limit(6);
+
+    if (!topContracts || topContracts.length === 0) {
+        return res.status(404).json({ message: 'No mindshare data available' });
+    }
+
+    res.status(200).json({ message: 'Top 6 contracts with highest mindshare values', data: topContracts });
+} catch (error) {
+    console.error('Error fetching top mindshares:', error);
+    res.status(500).json({ message: 'Error fetching top mindshares', error: error.message });
+}
+};
