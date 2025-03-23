@@ -15,13 +15,16 @@ const client = new TwitterApi({
 const twitterClient = client.readWrite;
 
 class MindshareController {
-  static async fetchTweets(query, maxTweets = 100) {
+  
+  static async fetchTweets(query, maxTweets = 100, retryCount = 0, maxRetries = 3) {
     try {
       const tweets = await twitterClient.v2.search(query, {
         max_results: maxTweets,
-        'tweet.fields': ['text', 'created_at'], // Correct parameter
+        'tweet.fields': ['text', 'created_at'],
       });
-
+  
+      console.log(tweets);
+  
       if (Array.isArray(tweets.data)) {
         return tweets.data.map(tweet => tweet.text);
       } else {
@@ -33,20 +36,27 @@ class MindshareController {
         const resetTime = error.response.headers['x-rate-limit-reset'];
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
         const waitTime = resetTime - currentTime + 1; // Time to wait before retrying (in seconds)
-
-        console.error(`Rate limit exceeded. Retrying in ${waitTime} seconds.`);
-
+        
+        console.error(`Rate limit exceeded. Retrying in ${waitTime} seconds. Reset time: ${resetTime}`);
+        
+        // Avoid infinite retry loop
+        if (retryCount >= maxRetries) {
+          console.error('Max retry attempts reached.');
+          return [];
+        }
+  
         // Wait for the rate limit to reset before retrying
         await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
-
+  
         // Retry the request
-        return this.fetchTweets(query, maxTweets);
+        return this.fetchTweets(query, maxTweets, retryCount + 1, maxRetries);
       } else {
         console.error('Error fetching tweets:', error);
         return [];
       }
     }
   }
+  
   
 
   static async calculateMindshare(req, res) {

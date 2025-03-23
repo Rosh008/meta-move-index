@@ -12,7 +12,7 @@ const projectSchema = new mongoose.Schema({
     category: { type: String, required: true },
     framework: { type: String, required: true },
     doxxed: { type: String, required: true },
-    token: { type: String, required: true },
+    token: { type: String, required: false },
     isOnTeam: { type: String, required: true },
     contractAddress: { type: String, required: true}
 });
