@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/table";
 import { ProjectData } from "@/types/projects";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function IndexTable() {
   const [projectsListing, setProjectsListing] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const headerItems = [
     "Project",
@@ -54,8 +56,9 @@ export default function IndexTable() {
     fetchData();
   }, []);
 
-  const onRowClick = (e: any) => {
+  const onRowClick = (tokenID: string, e: any) => {
     e.preventDefault();
+    navigate(`/details/${tokenID}`);
   };
 
   if (loading) {
@@ -77,7 +80,7 @@ export default function IndexTable() {
             {projectsListing.map((project, index) => (
               <TableRow
                 className="cursor-pointer"
-                onClick={onRowClick}
+                onClick={(e) => onRowClick(project.contractAddress, e)}
                 key={index}
               >
                 <TableCell>

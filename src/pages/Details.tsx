@@ -1,4 +1,5 @@
 import { fetchProjectData, fetchProjectDetails } from "@/api/projectsListing";
+import Loader from "@/components/loader";
 import { ProjectData } from "@/types/projects";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,24 +8,32 @@ export default function Details() {
   const navigate = useNavigate();
   const params = useParams();
   const [details, setDetails] = useState<ProjectData>();
+  const [loading, setLoading] = useState(false);
   const tokenId = params.tokenId;
 
   useEffect(() => {
     if (!tokenId) return;
+    setLoading(true);
     const fetchData = async () => {
       const projectData = await fetchProjectDetails("");
       const tokenData = await fetchProjectData(tokenId);
+      if (!tokenData.data.length) return;
       setDetails({ ...projectData, ...tokenData.data[0] });
     };
     fetchData();
+    setLoading(false);
   }, []);
 
   const onBackClick = () => {
     navigate("/");
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   if (!tokenId || !details) {
-    return <div className="h3">Something went wrong !</div>;
+    return <div className="h3 text-center">Something went wrong !</div>;
   }
   return (
     <div className="flex flex-col flex-1">
