@@ -95,7 +95,7 @@ export default function IndexTable() {
                       <div
                         className="ml-2"
                         onClick={(e) => {
-                          e.preventDefault();
+                          e.stopPropagation();
                           navigator.clipboard
                             .writeText(project.contractAddress)
                             .then(() => alert("Address copied"));
@@ -110,7 +110,12 @@ export default function IndexTable() {
                         />
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="flex gap-2"
+                    >
                       <a
                         target="_blank"
                         href={`https://twitter.com/${project.twitterHandle}`}
