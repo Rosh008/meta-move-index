@@ -1,5 +1,5 @@
 import { fetchProjectData, fetchProjectListing } from "@/api/projectsListing";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loader";
 import {
   Table,
   TableBody,
@@ -54,6 +54,10 @@ export default function IndexTable() {
     fetchData();
   }, []);
 
+  const onRowClick = (e: any) => {
+    e.preventDefault();
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -71,7 +75,11 @@ export default function IndexTable() {
           </TableHeader>
           <TableBody>
             {projectsListing.map((project, index) => (
-              <TableRow key={index}>
+              <TableRow
+                className="cursor-pointer"
+                onClick={onRowClick}
+                key={index}
+              >
                 <TableCell>
                   <div className="flex flex-col">
                     <div className="flex items-center">

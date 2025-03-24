@@ -47,7 +47,7 @@ interface Token {
     active: number;
   }
   
-  interface dexScreenerTokenData {
+export interface dexScreenerTokenData {
     chainId: string;
     dexId: string;
     url: string;

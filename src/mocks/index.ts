@@ -78,3 +78,20 @@ export const projectsListing = [
         "mindShare": "9.2"
     },
 ]
+
+
+export const projectsDetails = {
+    "projectName": "Satan",
+    "twitterHandle": "@s8n",
+    "description": "Would you like to make a deal?",
+    "websiteLink": "https://www.hell.tech/",
+    "telegramLink": "https://t.me/projectA",
+    "githubLink": "https://github.com/projectA",
+    "category": ["Agents", "TEE"],
+    "framework": "React",
+    "doxxed": "N",
+    "token": "Y",
+    "isOnTeam": "Y",
+    "contractAddress": "FrkF4GNdqKZLuzWXTk1imqMJRGK9uxCRE3PaBKZbpump",
+    "mindShare": "9.2"
+}
