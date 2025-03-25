@@ -8,7 +8,6 @@ interface DetailsOverviewProps {
 }
 
 export default function DetailsOverview({ details }: DetailsOverviewProps) {
-  console.log(details);
   return (
     <section className="w-full mt-4 flex lg:flex-row flex-col justify-center items-center gap-[2px] h-auto lg:items-stretch min-h-[320px]">
       <div className="lg:w-2/5 w-full flex flex-col justify-between items-center lg:h-auto h-min gap-[2px]">

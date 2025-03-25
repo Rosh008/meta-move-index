@@ -10,41 +10,41 @@ export default function Details() {
   const navigate = useNavigate();
   const params = useParams();
   const [details, setDetails] = useState<ProjectData>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const tokenId = params.tokenId;
 
   useEffect(() => {
-    setLoading(true);
-    if (!tokenId) return;
+    if (!tokenId) {
+      return;
+    }
     const fetchData = async () => {
       const projectData = await fetchProjectDetails();
       const tokenData = await fetchProjectData(tokenId as string);
-      if (!tokenData.data.length) return;
+      if (!tokenData.data.length) {
+        return;
+      }
       setDetails({ ...projectData, ...tokenData.data[0] });
     };
     fetchData();
     setLoading(false);
-  }, []);
+  }, [tokenId]);
 
   const onBackClick = () => {
     navigate("/");
   };
 
-  if (loading) {
+  if (loading || !details) {
     return <Loader />;
   }
 
-  if (!tokenId || !details) {
-    return <div className="h3 text-center">Something went wrong !</div>;
-  }
   return (
     <div className="flex flex-col flex-1">
       <div onClick={onBackClick} className="text-[#2E47E0] mb-3 cursor-pointer">
         Back
       </div>
-      <DetailsCard details={details} />
+      <DetailsCard details={details as ProjectData} />
       <h2 className="mt-6 text-lg">Overview</h2>
-      <DetailsOverview details={details} />
+      <DetailsOverview details={details as ProjectData} />
     </div>
   );
 }
