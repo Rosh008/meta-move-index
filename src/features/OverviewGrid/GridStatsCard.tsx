@@ -2,7 +2,7 @@ import SimpleLineChart from "@/components/charts/SimpleLineChart";
 
 interface GridStatsCardProps {
   title: string;
-  infoHeading: string;
+  infoHeading: string | number;
   change: string;
   timePeriod: string;
 }
