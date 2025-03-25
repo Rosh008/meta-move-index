@@ -1,6 +1,7 @@
 // controllers/projectController.js
 
 import Project from "../models/project.js";
+import MarketData from "../models/marketData.js";
 import axios from 'axios';
 import moment from 'moment';
 
@@ -108,8 +109,30 @@ const fetchMarketDataForContract = async (contractAddress) => {
         const marketCap = response.data?.pair?.marketCap || 0;
         const tradingVolume = response.data?.pair?.volume?.h24 || 0;
 
-        // Return market cap and trading volume
-        return { marketCap, tradingVolume };
+        // Get today's date in the format 'DD-MM-YYYY'
+        const today = moment().format('DD-MM-YYYY');
+
+        // Check if the data for this contract address and date already exists
+        let existingData = await MarketData.findOne({
+            contractAddress,
+            date: today,
+        });
+
+        if (existingData) {
+            // If data exists for today, update it
+            existingData.marketCap = marketCap;
+            existingData.tradingVolume = tradingVolume;
+            await existingData.save();
+        } else {
+            // Otherwise, create new entry
+            const newMarketData = new MarketData({
+                contractAddress,
+                date: today,
+                marketCap,
+                tradingVolume,
+            });
+            await newMarketData.save();
+        }
     } catch (error) {
         console.error(`Error fetching market data for contract ${contractAddress}:`, error);
         return { marketCap: 0, tradingVolume: 0 }; // Return 0 if there is an error
@@ -126,28 +149,36 @@ export const getSumOfMarketCapAndVolumeForAllContracts = async (req, res) => {
             return res.status(404).json({ message: 'No projects with contract addresses found.' });
         }
 
+        for (const project of projects) {
+            await fetchMarketDataForContract(project.contractAddress);
+        }
+
         // Initialize an array to store the result data
         const result = [];
 
         // Get today's date and loop through the past 10 days
         const today = moment();
         for (let i = 0; i < 10; i++) {
-            const formattedDate = today.subtract(i, 'days').format('DD-MM-YYYY');
+            const formattedDate = today.clone().subtract(i, 'days').format('DD-MM-YYYY');
             let totalMarketCapForDay = 0;
             let totalTradingVolumeForDay = 0;
 
-            // Loop through each project and fetch the market data for each contract address
+            // Loop through each project and fetch the stored market data for each contract address for the past 10 days
             for (const project of projects) {
                 const contractAddress = project.contractAddress;
-                console.log(contractAddress)
+                console.log(`Fetching data for contract: ${contractAddress}`);
 
-                // Fetch market data (market cap and trading volume) for this contract address
-                const { marketCap, tradingVolume } = await fetchMarketDataForContract(contractAddress);
-                
+                // Fetch stored market data for this contract address and date
+                const marketData = await MarketData.findOne({
+                    contractAddress,
+                    date: formattedDate,
+                });
 
-                // Add this contract's market cap and trading volume to the totals for the day
-                totalMarketCapForDay += marketCap;
-                totalTradingVolumeForDay += tradingVolume;
+                // If data exists, add it to the totals for the day
+                if (marketData) {
+                    totalMarketCapForDay += marketData.marketCap;
+                    totalTradingVolumeForDay += marketData.tradingVolume;
+                }
             }
 
             // Convert the total market cap and trading volume to human-readable format (Billions and Millions)

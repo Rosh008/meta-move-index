@@ -8,8 +8,8 @@ class MindshareView {
     return { totalTokens };
   }
 
-  static showSolanaTokenCount(solanaTokenCount) {
-    return { solanaTokenCount };
+  static showTokenCount(tokenCount) {
+    return { tokenCount };
   }
 }
 

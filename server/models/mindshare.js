@@ -10,6 +10,10 @@ const mindshareSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    sentiment: {
+        type: String,
+        required: true,
+    },
     timestamp: {
         type: Date,
         default: Date.now,
