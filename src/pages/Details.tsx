@@ -15,7 +15,7 @@ export default function Details() {
     if (!tokenId) return;
     setLoading(true);
     const fetchData = async () => {
-      const projectData = await fetchProjectDetails("");
+      const projectData = await fetchProjectDetails();
       const tokenData = await fetchProjectData(tokenId);
       if (!tokenData.data.length) return;
       setDetails({ ...projectData, ...tokenData.data[0] });
