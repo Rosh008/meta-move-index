@@ -37,7 +37,7 @@ export default function OverflowTooltip({
         <TooltipTrigger asChild>
           <div
             ref={textRef}
-            className={cn("truncate w-40", contentWrapperClassname)} // Adjust width as needed
+            className={cn("truncate max-w-40", contentWrapperClassname)} // Adjust width as needed
           >
             {text}
           </div>

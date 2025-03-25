@@ -94,7 +94,7 @@ export default function IndexTable() {
                       />
                       <OverflowTooltip
                         text={project.projectName}
-                        contentWrapperClassname="text-md w-60"
+                        contentWrapperClassname="text-md max-w-60"
                       />
                       <div
                         className="ml-2"
