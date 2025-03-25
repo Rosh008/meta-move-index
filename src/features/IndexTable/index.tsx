@@ -1,5 +1,6 @@
 import { fetchProjectData, fetchProjectListing } from "@/api/projectsListing";
 import Loader from "@/components/loader";
+import OverflowTooltip from "@/components/overflowTooltip";
 import {
   Table,
   TableBody,
@@ -91,7 +92,10 @@ export default function IndexTable() {
                         src={project.info.imageUrl}
                         alt="thumbnail"
                       />
-                      <span className="text-sm">{project.projectName}</span>
+                      <OverflowTooltip
+                        text={project.projectName}
+                        contentWrapperClassname="text-md w-60"
+                      />
                       <div
                         className="ml-2"
                         onClick={(e) => {
