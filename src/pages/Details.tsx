@@ -15,15 +15,14 @@ export default function Details() {
 
   useEffect(() => {
     setLoading(true);
+    if (!tokenId) return;
     const fetchData = async () => {
       const projectData = await fetchProjectDetails();
       const tokenData = await fetchProjectData(tokenId as string);
       if (!tokenData.data.length) return;
       setDetails({ ...projectData, ...tokenData.data[0] });
     };
-    if (tokenId) {
-      fetchData();
-    }
+    fetchData();
     setLoading(false);
   }, []);
 
@@ -45,7 +44,7 @@ export default function Details() {
       </div>
       <DetailsCard details={details} />
       <h2 className="mt-6 text-lg">Overview</h2>
-      <DetailsOverview />
+      <DetailsOverview details={details} />
     </div>
   );
 }

@@ -1,32 +1,42 @@
 import DetailsInfoCard from "@/features/DetailsOverview/DetailsInfoCard";
 import GridStatsCard from "@/features/OverviewGrid/GridStatsCard";
+import { formatDecimalWithSubscript, formatPrice } from "@/lib/helper";
+import { ProjectData } from "@/types/projects";
 
-export default function DetailsOverview() {
+interface DetailsOverviewProps {
+  details: ProjectData;
+}
+
+export default function DetailsOverview({ details }: DetailsOverviewProps) {
+  console.log(details);
   return (
     <section className="w-full mt-4 flex lg:flex-row flex-col justify-center items-center gap-[2px] h-auto lg:items-stretch min-h-[320px]">
       <div className="lg:w-2/5 w-full flex flex-col justify-between items-center lg:h-auto h-min gap-[2px]">
         <GridStatsCard
           title="Price"
-          infoHeading="$0.0₃7067"
-          change="-10"
+          infoHeading={formatDecimalWithSubscript(details.priceUsd)}
+          change={details.priceChange.h24.toString()}
           timePeriod="24h"
         />
         <div className="flex w-full gap-[2px]">
           <DetailsInfoCard
             title="Market cap"
-            primaryValue="$1.97M"
+            primaryValue={`$${formatPrice(details.marketCap)}`}
+            //TODO
             secondaryValue="+10.2%"
           />
           <DetailsInfoCard
             title="Trading volume"
-            primaryValue="93.303K"
+            primaryValue={`$${formatPrice(details.volume.h24)}`}
+            //TODO
             secondaryValue="-2%"
           />
         </div>
         <div className="flex w-full gap-[2px]">
           <DetailsInfoCard
             title="Liquidity"
-            primaryValue="675.699K"
+            primaryValue={`$${formatPrice(details.liquidity.usd)}`}
+            //TODO
             secondaryValue="+0.03%"
           />
           <DetailsInfoCard
@@ -52,7 +62,7 @@ export default function DetailsOverview() {
         <div className="flex w-full gap-[2px]">
           <DetailsInfoCard
             title="Mindshare"
-            primaryValue="0.142"
+            primaryValue={details.mindShare}
             secondaryValue="-0.08%"
           />
           <DetailsInfoCard
@@ -61,6 +71,7 @@ export default function DetailsOverview() {
             secondaryValue="-0.03%"
           />
         </div>
+        {/* // Mindshare chart */}
       </div>
     </section>
   );
