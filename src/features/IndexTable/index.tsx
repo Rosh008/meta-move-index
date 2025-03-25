@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatDecimalWithSubscript, formatPrice } from "@/lib/helper";
 import { ProjectData } from "@/types/projects";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -164,10 +165,12 @@ export default function IndexTable() {
                   </div>
                 </TableCell>
                 <TableCell>{project.mindShare}</TableCell>
-                <TableCell>{project.marketCap}</TableCell>
-                <TableCell>{project.volume.h24}</TableCell>
-                <TableCell>{project.liquidity.usd}</TableCell>
-                <TableCell>{project.priceUsd}</TableCell>
+                <TableCell>{formatPrice(project.marketCap)}</TableCell>
+                <TableCell>{formatPrice(project.volume.h24)}</TableCell>
+                <TableCell>{formatPrice(project.liquidity.usd)}</TableCell>
+                <TableCell>
+                  {formatDecimalWithSubscript(project.priceUsd)}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
