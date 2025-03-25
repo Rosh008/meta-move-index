@@ -1,10 +1,7 @@
-// interface OverviewGridProps {
-
 import GridInfoCard from "@/features/OverviewGrid/GridInfoCard";
 import GridStatsCard from "@/features/OverviewGrid/GridStatsCard";
 import MindShareCard from "@/features/OverviewGrid/MindShareCard";
 
-// }
 export default function OverviewGrid() {
   return (
     <section className="w-full mt-4 flex lg:flex-row flex-col justify-center items-center gap-[2px] h-auto lg:items-stretch min-h-[320px]">

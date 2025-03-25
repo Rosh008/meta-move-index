@@ -1,10 +1,10 @@
 import SimpleLineChart from "@/components/charts/SimpleLineChart";
 
 interface GridStatsCardProps {
-  title: string;
-  infoHeading: string;
-  change: string;
-  timePeriod: string;
+  title: String;
+  infoHeading: String | number | React.ReactNode;
+  change: String;
+  timePeriod: String;
 }
 
 export default function GridStatsCard({
