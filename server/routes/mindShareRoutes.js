@@ -1,7 +1,7 @@
 // routes/mindshareRoutes.js
 import express from 'express';
 import MindshareController from '../controller/mindshareController.js';
-import {getTopMindshares, storeMindshare, getMindshareByCA} from '../controller/mindshareController.js'
+import {getTopMindshares, storeMindshare, getMindshareByCA, getFollowerCount} from '../controller/mindshareController.js'
 
 const router = express.Router();
 
@@ -15,5 +15,7 @@ router.post('/mindshare', storeMindshare);
 router.get('/mindshares/top', getTopMindshares);
 
 router.get("/mindshares/:contractAddress", getMindshareByCA);
+
+router.get("/mindshare/twitterHandle/:twitterHandle", getFollowerCount);
 
 export default router;

@@ -4,6 +4,7 @@ import MindshareModel from '../models/mindshareModel.js';
 import MindshareView from '../view/mindshareView.js';
 import Mindshare from '../models/mindshare.js';
 import Sentiment from 'sentiment'; 
+import TokenSchema from '../models/tokenTwitterFollower.js';
 
 // Twitter API credentials
 const client = new TwitterApi({
@@ -196,3 +197,52 @@ export const getMindshareByCA = async (req, res) => {
       res.status(500).send({ message: "Error fetching project", error: err });
   }
 };
+
+export const getFollowerCount = async (req, res) => {
+  const { twitterHandle } = req.params;
+
+  try {
+    // Fetch user information from Twitter API
+    const user = await twitterClient.v2.userByUsername(twitterHandle,
+      {
+        'user.fields': ['public_metrics'], // Explicitly request public_metrics
+      }
+    );
+
+    console.log(user);
+
+    console.log("\n======================\n")
+
+    console.log(user.data);
+
+    console.log("\n======================\n")
+
+    console.log(user.data.public_metrics);
+
+    // Extract the followers count
+    const followersCount = user.data.public_metrics.followers_count;
+
+    // Check if the handle already exists in the database
+    let userRecord = await TokenSchema.findOne({ twitterHandle });
+    
+    if (userRecord) {
+      // If the handle exists, update the followers count
+      userRecord.followersCount = followersCount;
+      userRecord.timestamp = Date.now();
+      await userRecord.save();
+      console.log(`Updated followers count for ${twitterHandle}: ${followersCount}`);
+      res.status(200).send({ message: "Followers count: ", data: followersCount });
+    } else {
+      // If the handle doesn't exist, create a new record
+      userRecord = new TokenSchema({
+        twitterHandle,
+        followersCount,
+      });
+      await userRecord.save();
+      console.log(`Stored new user with ${twitterHandle}: ${followersCount}`);
+      res.status(200).send({ message: "Followers count: ", data: followersCount });
+    }
+  } catch (error) {
+    console.error('Error fetching or storing data:', error);
+  }
+}
