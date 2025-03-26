@@ -72,7 +72,7 @@ export const getSolanaTokenData = async (req, res) => {
 
     try {
         // Construct the API URL for DEXScreener using the contract address
-        const url = `https://api.dexscreener.com/latest/dex/pairs/solana/${contractAddress}`;
+        const url = `https://api.dexscreener.com/latest/dex/pairs/aptos/${contractAddress}`;
 
         // Make the GET request to DEXScreener API
         const response = await axios.get(url);
@@ -100,7 +100,7 @@ export const getSolanaTokenData = async (req, res) => {
 const fetchMarketDataForContract = async (contractAddress) => {
     try {
         // API URL with the dynamic contract address
-        const url = `https://api.dexscreener.com/latest/dex/pairs/solana/${contractAddress}`;
+        const url = `https://api.dexscreener.com/latest/dex/pairs/aptos/${contractAddress}`;
         
         // Fetch market data for the contract address
         const response = await axios.get(url);
