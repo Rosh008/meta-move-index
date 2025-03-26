@@ -1,14 +1,12 @@
-import dotenv from 'dotenv';
-
-dotenv.config()
-
 import express from 'express';
 import bodyParser from "body-parser";
 import cors from 'cors';
 import connectDB from "./config/db.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import mindshareRoutes from './routes/mindShareRoutes.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(cors());
