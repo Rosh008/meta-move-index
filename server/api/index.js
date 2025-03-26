@@ -10,8 +10,8 @@ import mindshareRoutes from './mindShareRoutes.js';
 const app = express();
 
 const allowedOrigins = [
-  "https://aptindexai.netlify.app/",
-  "http://localhost:5173/"
+  "https://aptindexai.netlify.app",
+  "http://localhost:5173"
 ];
 
 app.use(cors({
