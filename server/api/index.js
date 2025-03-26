@@ -14,21 +14,22 @@ const allowedOrigins = [
   "http://localhost:5173"
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    console.log("🛠 Checking origin:", origin);  // ✅ Log incoming origin
-    if (!origin || allowedOrigins.includes(origin)) {
-      console.log("✅ CORS allowed for:", origin);
-      callback(null, true);
-    } else {
-      console.error("❌ CORS blocked:", origin);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  methods: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-  allowedHeaders: "Content-Type, Authorization"
-}));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
+  
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
 app.use(bodyParser.json());
 
 connectDB();
