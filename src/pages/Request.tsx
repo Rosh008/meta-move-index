@@ -12,7 +12,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner"; // For showing success messages
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -23,7 +22,7 @@ const formSchema = z.object({
   telegram: z.string().url("Invalid URL"),
   github: z.string().url("Invalid URL"),
   category: z.string().min(1, "Category is required"),
-  framework: z.string().min(1, "Framework information is required"),
+  //   framework: z.string().min(1, "Framework information is required"),
   devTwitter: z.string().optional(),
   devDoxxed: z.enum(["yes", "no"]),
   hasToken: z.enum(["yes", "no"]),
@@ -44,7 +43,6 @@ export default function Request() {
 
   const onSubmit = (data: FormData) => {
     console.log("Form submitted:", data);
-    toast.success("Project submitted successfully! 🎉");
   };
 
   return (
