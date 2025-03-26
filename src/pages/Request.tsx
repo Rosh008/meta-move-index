@@ -156,7 +156,7 @@ export default function Request() {
         </div>
 
         {/* Framework */}
-        <div className="flex flex-col gap-3">
+        {/* <div className="flex flex-col gap-3">
           <Label>Framework *</Label>
           <Input
             {...register("framework")}
@@ -165,7 +165,7 @@ export default function Request() {
           {errors.framework && (
             <p className="text-red-500 text-sm">{errors.framework.message}</p>
           )}
-        </div>
+        </div> */}
 
         {/* Dev Twitter */}
         <div className="flex flex-col gap-3">
