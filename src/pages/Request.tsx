@@ -21,8 +21,9 @@ const formSchema = z.object({
   website: z.string().url("Invalid URL"),
   telegram: z.string().url("Invalid URL"),
   github: z.string().url("Invalid URL"),
+  address: z.string().min(32, "Aptos address is required"),
   category: z.string().min(1, "Category is required"),
-  //   framework: z.string().min(1, "Framework information is required"),
+  framework: z.string().min(1, "Framework information is required"),
   devTwitter: z.string().optional(),
   devDoxxed: z.enum(["yes", "no"]),
   hasToken: z.enum(["yes", "no"]),
@@ -117,6 +118,15 @@ export default function Request() {
           )}
         </div>
 
+        {/* GitHub */}
+        <div className="flex flex-col gap-3">
+          <Label>Address *</Label>
+          <Input {...register("address")} placeholder="Aptos address" />
+          {errors.address && (
+            <p className="text-red-500 text-sm">{errors.address.message}</p>
+          )}
+        </div>
+
         {/* Category */}
         <div className="flex flex-col gap-3">
           <Label>Category *</Label>
@@ -154,7 +164,7 @@ export default function Request() {
         </div>
 
         {/* Framework */}
-        {/* <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <Label>Framework *</Label>
           <Input
             {...register("framework")}
@@ -163,7 +173,7 @@ export default function Request() {
           {errors.framework && (
             <p className="text-red-500 text-sm">{errors.framework.message}</p>
           )}
-        </div> */}
+        </div>
 
         {/* Dev Twitter */}
         <div className="flex flex-col gap-3">
