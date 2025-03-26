@@ -9,17 +9,6 @@ import mindshareRoutes from './mindShareRoutes.js';
 // dotenv.config();
 const app = express();
 
-const allowedOrigins = ["https://aptindexai.netlify.app", "http://localhost:5173"];
-
-// ✅ Apply CORS globally to all routes
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
-
-
 app.use(bodyParser.json());
 
 connectDB();
