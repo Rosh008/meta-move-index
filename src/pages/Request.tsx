@@ -1,3 +1,4 @@
+import { postProjectForm } from "@/api/requestForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -30,7 +33,7 @@ const formSchema = z.object({
   teamMember: z.enum(["yes", "no"]),
 });
 
-type FormData = z.infer<typeof formSchema>;
+export type FormData = z.infer<typeof formSchema>;
 
 export default function Request() {
   const {
@@ -41,9 +44,13 @@ export default function Request() {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Form submitted:", data);
+    setLoading(true);
+    await postProjectForm(data);
+    setLoading(false);
   };
 
   return (
@@ -258,9 +265,15 @@ export default function Request() {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full">
-          Submit
-        </Button>
+        {loading ? (
+          <div className="w-full flex justify-center items-center">
+            <Loader2 className="h-8 w-8 animate-spin text-gray-500 dark:text-gray-400" />
+          </div>
+        ) : (
+          <Button type="submit" className="w-full cursor-pointer">
+            Submit
+          </Button>
+        )}
       </form>
     </div>
   );
