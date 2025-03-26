@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 import express from 'express';
 import bodyParser from "body-parser";
 import cors from 'cors';
@@ -15,7 +19,7 @@ connectDB();
 app.use("/api", projectRoutes);
 app.use("/api/mindshare", mindshareRoutes);
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

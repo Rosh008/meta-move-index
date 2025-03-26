@@ -3,7 +3,7 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-    const dbURI = "mongodb+srv://admin:43215@goat.jaos0.mongodb.net/?retryWrites=true&w=majority&appName=GOAT";
+    const dbURI = process.env.DBURI;
     try {
         await mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("MongoDB connected successfully!");

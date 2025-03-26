@@ -5,13 +5,17 @@ import MindshareView from '../view/mindshareView.js';
 import Mindshare from '../models/mindshare.js';
 import Sentiment from 'sentiment'; 
 import TokenSchema from '../models/tokenTwitterFollower.js';
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 
 // Twitter API credentials
 const client = new TwitterApi({
-    appKey: 'lzYeTKUWwcEE4INdBPE82uxIf',
-    appSecret: 'YFcb0wYxJBe1qOHu1w61w5xdnAIGorSPEZZqbfsgrHpVORnxTg',
-    accessToken: '1904261245450227712-Zw8lCNQqSkaXSIa2NwtsuSuLrS2sVM',
-    accessSecret: 'XI7nAnjUWGzsoIpOrznOCV267ocL9zpOk2ujLZX9ESAzQ'
+  appKey: process.env.APIKey,                  // API Key
+  appSecret: process.env.APIKeySecret,          // API Key Secret
+  accessToken: process.env.AccessToken,        // Access Token
+  accessSecret: process.env.AccessTokenSecret
 });
 
 const twitterClient = client.readWrite;
