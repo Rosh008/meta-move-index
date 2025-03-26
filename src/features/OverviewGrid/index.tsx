@@ -8,7 +8,7 @@ export default function OverviewGrid() {
       <div className="lg:w-2/5 w-full flex flex-col justify-between items-center lg:h-auto h-min gap-[2px]">
         <GridInfoCard />
         <GridStatsCard
-          title="Solana AI Market Cap"
+          title="Aptos AI Market Cap"
           infoHeading="$1.97B"
           change="-10"
           timePeriod="24h"
