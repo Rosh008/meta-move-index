@@ -16,9 +16,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
+    console.log("🛠 Checking origin:", origin);  // ✅ Log incoming origin
     if (!origin || allowedOrigins.includes(origin)) {
+      console.log("✅ CORS allowed for:", origin);
       callback(null, true);
     } else {
+      console.error("❌ CORS blocked:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -26,7 +29,6 @@ app.use(cors({
   methods: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
   allowedHeaders: "Content-Type, Authorization"
 }));
-
 app.use(bodyParser.json());
 
 connectDB();
