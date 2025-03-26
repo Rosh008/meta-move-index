@@ -9,7 +9,10 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="flex flex-col min-h-screen w-screen">
       <header className="w-full fixed py-4 px-6 flex justify-between items-center bg-[#171717] top-0 z-50">
-        <div onClick={() => navigate("/")} className="font-serif text-lg">
+        <div
+          onClick={() => navigate("/")}
+          className="font-serif text-lg cursor-pointer"
+        >
           AptIndex AI
         </div>
         <Button onClick={() => navigate("/request")} variant="outline">
