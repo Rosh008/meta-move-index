@@ -27,10 +27,8 @@ export default function GridStatsCard({
             <SimpleLineChart data={chartData} />
           </div>
           <div className="flex flex-col text-[#D54F34] justify-end items-end flex-shrink-0">
-            {change !== "0" && (
-              <p className="text-sm leading-none gap-1">{`${change}%`}</p>
-            )}
-            <p className="text-xs leading-none">{timePeriod}</p>
+            <p className="text-sm leading-none gap-1">{`${change}%`}</p>
+            <p className="text-xs leading-none mt-1">{timePeriod}</p>
           </div>
         </div>
       </div>

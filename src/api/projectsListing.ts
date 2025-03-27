@@ -1,18 +1,15 @@
 import { API_BASE_URL } from "@/lib/constant";
-import { projectsDetails, projectsListing } from "@/mocks";
+import { projectsDetails } from "@/mocks";
 import axios from 'axios';
 
 
 export async function fetchProjectListing() {
-
-    // return axios.get('http://localhost:5001/api/projects')
-
-    return Promise.resolve(projectsListing)
+    return axios.get(`${API_BASE_URL}/api/projects/projects`)
 }
 
 
 export async function fetchProjectData(tokenAddresses: String) {
-    return axios.get(`https://api.dexscreener.com/tokens/v1/solana/${tokenAddresses}`)
+    return axios.get(`https://api.dexscreener.com/tokens/v1/aptos/${tokenAddresses}`)
 }
 
 export async function fetchProjectDetails() {

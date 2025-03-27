@@ -2,14 +2,19 @@ import GridInfoCard from "@/features/OverviewGrid/GridInfoCard";
 import GridStatsCard from "@/features/OverviewGrid/GridStatsCard";
 import MindShareCard from "@/features/OverviewGrid/MindShareCard";
 import { parsePrice } from "@/lib/helper";
-import { OverviewData } from "@/types/projects";
+import { OverviewData, ProjectData } from "@/types/projects";
 
 interface OverviewGridProps {
   overviewData: OverviewData;
+  topMindShare: ProjectData[];
 }
-export default function OverviewGrid({ overviewData }: OverviewGridProps) {
+export default function OverviewGrid({
+  overviewData,
+  topMindShare,
+}: OverviewGridProps) {
   const calculateChange = (curr: number, prev: number) => {
     const change = ((curr - prev) / prev) * 100;
+    if (!change) return "0";
     return `${change > 0 ? "+" : ""}${change.toFixed(2)}`;
   };
 
@@ -66,7 +71,7 @@ export default function OverviewGrid({ overviewData }: OverviewGridProps) {
         />
       </div>
       <div className="lg:w-3/5 w-full flex flex-col justify-between items-center lg:h-auto h-min gap-[2px]">
-        <MindShareCard />
+        <MindShareCard topMindShare={topMindShare} />
       </div>
     </section>
   );

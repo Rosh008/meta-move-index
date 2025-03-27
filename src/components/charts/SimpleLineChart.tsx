@@ -6,7 +6,6 @@ interface SimpleLineChartProps {
 }
 
 export default function SimpleLineChart({ data }: SimpleLineChartProps) {
-  console.log(data);
   const options: Highcharts.Options = {
     chart: {
       type: "line",
