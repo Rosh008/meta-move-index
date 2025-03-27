@@ -83,3 +83,15 @@ export type ProjectData = dexScreenerTokenData & {
     contractAddress: string,
     mindShare: string
 }
+
+export interface MarketCapAndVolume {
+  date: string;
+  totalMarketCap: string;
+  totalTradingVolume: string;
+}
+
+export interface OverviewData {
+  totalProjects: number;
+  totalProjectsWithTokens: number;
+  marketCapAndVolume: MarketCapAndVolume[];
+}

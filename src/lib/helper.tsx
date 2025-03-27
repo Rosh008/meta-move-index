@@ -28,3 +28,14 @@ export function formatPrice(num: number) {
   }
   return num.toString(); // Return as is for numbers < 1K
 }
+
+export function parsePrice(str: string): number {
+  if (str.endsWith("B")) {
+    return parseFloat(str.replace("B", "")) * 1_000_000_000;
+  } else if (str.endsWith("M")) {
+    return parseFloat(str.replace("M", "")) * 1_000_000;
+  } else if (str.endsWith("K")) {
+    return parseFloat(str.replace("K", "")) * 1_000;
+  }
+  return parseFloat(str);
+}
