@@ -22,16 +22,16 @@ const formSchema = z.object({
   projectName: z.string().min(1, "Project Name is required"),
   twitterHandle: z.string().min(1, "Twitter handle is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  website: z.string().url("Invalid URL"),
-  telegram: z.string().url("Invalid URL"),
-  github: z.string().url("Invalid URL"),
-  address: z.string().min(32, "Aptos address is required"),
+  websiteLink: z.string().url("Invalid URL"),
+  telegramLink: z.string().url("Invalid URL"),
+  githubLink: z.string().url("Invalid URL"),
+  contractAddress: z.string().min(32, "Aptos address is required"),
   category: z.string().min(1, "Category is required"),
   framework: z.string().min(1, "Framework information is required"),
   devTwitter: z.string().optional(),
-  devDoxxed: z.enum(["yes", "no"]),
+  doxxed: z.enum(["yes", "no"]),
   hasToken: z.enum(["yes", "no"]),
-  teamMember: z.enum(["yes", "no"]),
+  isOnTeam: z.enum(["yes", "no"]),
 });
 
 export type FormData = z.infer<typeof formSchema>;
@@ -42,6 +42,7 @@ export default function Request() {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
@@ -49,15 +50,15 @@ export default function Request() {
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
-    console.log("Form submitted:", data);
     setLoading(true);
     await postProjectForm(data);
+    reset();
     setLoading(false);
   };
 
   return (
     <div className="max-w-2xl mx-auto bg-[#171717] p-6 rounded-lg shadow-md">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold mb-4">Submit Your Project</h2>
         <button
           onClick={() => navigate("/")}
@@ -121,18 +122,26 @@ export default function Request() {
         {/* Website */}
         <div className="flex flex-col gap-3">
           <Label>Website *</Label>
-          <Input {...register("website")} placeholder="https://example.com" />
-          {errors.website && (
-            <p className="text-red-500 text-sm">{errors.website.message}</p>
+          <Input
+            {...register("websiteLink")}
+            placeholder="https://example.com"
+          />
+          {errors.websiteLink && (
+            <p className="text-red-500 text-sm">{errors.websiteLink.message}</p>
           )}
         </div>
 
         {/* Telegram */}
         <div className="flex flex-col gap-3">
           <Label>Telegram *</Label>
-          <Input {...register("telegram")} placeholder="https://t.me/project" />
-          {errors.telegram && (
-            <p className="text-red-500 text-sm">{errors.telegram.message}</p>
+          <Input
+            {...register("telegramLink")}
+            placeholder="https://t.me/project"
+          />
+          {errors.telegramLink && (
+            <p className="text-red-500 text-sm">
+              {errors.telegramLink.message}
+            </p>
           )}
         </div>
 
@@ -140,20 +149,22 @@ export default function Request() {
         <div className="flex flex-col gap-3">
           <Label>GitHub *</Label>
           <Input
-            {...register("github")}
+            {...register("githubLink")}
             placeholder="https://github.com/project"
           />
-          {errors.github && (
-            <p className="text-red-500 text-sm">{errors.github.message}</p>
+          {errors.githubLink && (
+            <p className="text-red-500 text-sm">{errors.githubLink.message}</p>
           )}
         </div>
 
         {/* GitHub */}
         <div className="flex flex-col gap-3">
           <Label>Address *</Label>
-          <Input {...register("address")} placeholder="Aptos address" />
-          {errors.address && (
-            <p className="text-red-500 text-sm">{errors.address.message}</p>
+          <Input {...register("contractAddress")} placeholder="Aptos address" />
+          {errors.contractAddress && (
+            <p className="text-red-500 text-sm">
+              {errors.contractAddress.message}
+            </p>
           )}
         </div>
 
@@ -215,7 +226,7 @@ export default function Request() {
         <div className="flex flex-col gap-3">
           <Label>Is the Dev doxxed? *</Label>
           <Controller
-            name="devDoxxed"
+            name="doxxed"
             control={control}
             rules={{ required: "This field is required" }}
             render={({ field }) => (
@@ -231,8 +242,8 @@ export default function Request() {
               </RadioGroup>
             )}
           />
-          {errors.devDoxxed && (
-            <p className="text-red-500 text-sm">{errors.devDoxxed.message}</p>
+          {errors.doxxed && (
+            <p className="text-red-500 text-sm">{errors.doxxed.message}</p>
           )}
         </div>
 
@@ -266,7 +277,7 @@ export default function Request() {
         <div className="flex flex-col gap-3">
           <Label>Are you on the project's team? *</Label>
           <Controller
-            name="teamMember"
+            name="isOnTeam"
             control={control}
             rules={{ required: "This field is required" }}
             render={({ field }) => (
@@ -282,8 +293,8 @@ export default function Request() {
               </RadioGroup>
             )}
           />
-          {errors.teamMember && (
-            <p className="text-red-500 text-sm">{errors.teamMember.message}</p>
+          {errors.isOnTeam && (
+            <p className="text-red-500 text-sm">{errors.isOnTeam.message}</p>
           )}
         </div>
 

@@ -6,5 +6,5 @@ import axios from "axios"
 
 
 export async function postProjectForm(data: FormData) {
-    return axios.post(`${API_BASE_URL}/projects/projects`, data)
+    return axios.post(`${API_BASE_URL}/api/projects/projects`, data)
 }
