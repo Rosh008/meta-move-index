@@ -1,7 +1,7 @@
 interface DetailsInfoCardProps {
   title: String;
   primaryValue: String;
-  secondaryValue: String;
+  secondaryValue?: String;
 }
 
 export default function DetailsInfoCard({
@@ -16,15 +16,17 @@ export default function DetailsInfoCard({
         <div className="flex flex-col gap-0.5">
           <div className="flex justify-between items-center">
             <div className="text-xl">{primaryValue}</div>
-            <div
-              className={`text-sm leading-none ${
-                secondaryValue.startsWith("+")
-                  ? "text-[#A2A2A2]"
-                  : "text-[#D54F34]"
-              }`}
-            >
-              {secondaryValue}
-            </div>
+            {secondaryValue ? (
+              <div
+                className={`text-sm leading-none ${
+                  secondaryValue.startsWith("+")
+                    ? "text-[#A2A2A2]"
+                    : "text-[#D54F34]"
+                }`}
+              >
+                {secondaryValue}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

@@ -1,5 +1,3 @@
-import { fetchProjectData, fetchProjectListing } from "@/api/projectsListing";
-import Loader from "@/components/loader";
 import OverflowTooltip from "@/components/overflowTooltip";
 import {
   Table,
@@ -11,12 +9,12 @@ import {
 } from "@/components/ui/table";
 import { formatDecimalWithSubscript, formatPrice } from "@/lib/helper";
 import { ProjectData } from "@/types/projects";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function IndexTable() {
-  const [projectsListing, setProjectsListing] = useState<ProjectData[]>([]);
-  const [loading, setLoading] = useState(false);
+interface IndexTableProps {
+  projectsListing: ProjectData[];
+}
+export default function IndexTable({ projectsListing }: IndexTableProps) {
   const navigate = useNavigate();
 
   const headerItems = [
@@ -29,43 +27,10 @@ export default function IndexTable() {
     "Price",
   ];
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      const listingData = await fetchProjectListing();
-
-      const data = await Promise.all(
-        [
-          ...listingData,
-          ...listingData,
-          ...listingData,
-          ...listingData,
-          ...listingData,
-          ...listingData,
-          ...listingData,
-        ].map(async (project) => {
-          const { contractAddress } = project;
-          const projectData = await fetchProjectData(contractAddress);
-          return {
-            ...project,
-            ...projectData.data[0],
-          };
-        })
-      );
-      setProjectsListing([...data]);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-
   const onRowClick = (tokenID: string, e: any) => {
     e.preventDefault();
     navigate(`/details/${tokenID}`);
   };
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <>
@@ -119,7 +84,7 @@ export default function IndexTable() {
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
-                      className="flex gap-2"
+                      className="flex gap-2 mt-2"
                     >
                       <a
                         target="_blank"
@@ -157,14 +122,14 @@ export default function IndexTable() {
                 </TableCell>
                 <TableCell className="p-0">
                   <div className="flex gap-1">
-                    {project.category.map((label) => (
-                      <div className="p-1 px-2 text-xs border border-[#D54F34] rounded-lg">
-                        {label}
-                      </div>
-                    ))}
+                    {/* {project.category.map((label) => ( */}
+                    <div className="p-1 px-2 text-xs border border-[#D54F34] rounded-lg">
+                      {project.category}
+                    </div>
+                    {/* ))} */}
                   </div>
                 </TableCell>
-                <TableCell>{project.mindShare}</TableCell>
+                <TableCell>{project.mindShare.toFixed(2)}</TableCell>
                 <TableCell>{formatPrice(project.marketCap)}</TableCell>
                 <TableCell>{formatPrice(project.volume.h24)}</TableCell>
                 <TableCell>{formatPrice(project.liquidity.usd)}</TableCell>

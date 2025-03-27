@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -45,6 +46,7 @@ export default function Request() {
     resolver: zodResolver(formSchema),
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
     console.log("Form submitted:", data);
@@ -55,7 +57,28 @@ export default function Request() {
 
   return (
     <div className="max-w-2xl mx-auto bg-[#171717] p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Submit Your Project</h2>
+      <div className="flex justify-between">
+        <h2 className="text-xl font-semibold mb-4">Submit Your Project</h2>
+        <button
+          onClick={() => navigate("/")}
+          className="hover:text-gray-600 cursor-pointer text-white transition duration-300"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 mt-8">
         {/* Project Name */}

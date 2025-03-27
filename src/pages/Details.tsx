@@ -1,3 +1,4 @@
+import { fetchMindshareData } from "@/api/mindShare";
 import { fetchProjectData, fetchProjectDetails } from "@/api/projectsListing";
 import Loader from "@/components/loader";
 import { DetailsCard } from "@/features/DetailsCard";
@@ -11,6 +12,7 @@ export default function Details() {
   const params = useParams();
   const [details, setDetails] = useState<ProjectData>();
   const [loading, setLoading] = useState(true);
+  const [followers] = useState("NAN");
   const tokenId = params.tokenId;
 
   useEffect(() => {
@@ -18,12 +20,27 @@ export default function Details() {
       return;
     }
     const fetchData = async () => {
-      const projectData = await fetchProjectDetails();
+      const projectData: ProjectData = await fetchProjectDetails(tokenId).then(
+        (res) => res.data.data
+      );
       const tokenData = await fetchProjectData(tokenId as string);
+      const mindShareData = await fetchMindshareData(tokenId).then(
+        (res) => res.data.data
+      );
+      // const twitterFollowers = await fetchTwitterFollowerCount(
+      //   projectData.twitterHandle
+      // ).then((res) => res.data.data);
+
+      // setFollowers(twitterFollowers);
+
       if (!tokenData.data.length) {
         return;
       }
-      setDetails({ ...projectData, ...tokenData.data[0] });
+      setDetails({
+        ...projectData,
+        ...tokenData.data[0],
+        mindShare: mindShareData.mindshareValue * 100,
+      });
     };
     fetchData();
     setLoading(false);
@@ -44,7 +61,7 @@ export default function Details() {
       </div>
       <DetailsCard details={details as ProjectData} />
       <h2 className="mt-6 text-lg">Overview</h2>
-      <DetailsOverview details={details as ProjectData} />
+      <DetailsOverview details={details as ProjectData} followers={followers} />
     </div>
   );
 }
