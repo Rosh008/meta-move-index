@@ -9,6 +9,18 @@ import moment from 'moment';
 export const createProject = async (req, res) => {
     try {
         const newProject = new Project(req.body);
+        // Validate contractAddress presence
+        if (!contractAddress) {
+            return res.status(400).json({ message: "Contract address is required" });
+        }
+
+        // Validate contractAddress via DexScreener API
+        const dexScreenerUrl = `https://api.dexscreener.com/latest/dex/pairs/aptos/${contractAddress}`;
+        const { data } = await axios.get(dexScreenerUrl);
+
+        if (data.pairs === null && data.pair === null) {
+            return res.status(400).json({ message: "Invalid contract address, project cannot be saved" });
+        }
         await newProject.save();
         res.status(201).send({ message: "Project saved successfully!", data: newProject });
     } catch (err) {
