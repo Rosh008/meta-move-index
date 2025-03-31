@@ -55,8 +55,8 @@ export default function IndexTable({ projectsListing }: IndexTableProps) {
                     <div className="flex items-center">
                       <img
                         className="h-6 w-6 mr-1"
-                        src={project.info.imageUrl}
-                        alt="thumbnail"
+                        src={project.info?.imageUrl}
+                        alt=""
                       />
                       <OverflowTooltip
                         text={project.projectName}
