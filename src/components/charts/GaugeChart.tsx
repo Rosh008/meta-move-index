@@ -11,7 +11,8 @@ try {
   SolidGauge(Highcharts);
 } catch (e) {}
 
-const GaugeChart = ({ value = 65 }) => {
+const GaugeChart = ({ value }: { value: number }) => {
+  const finalValue = value === -1 ? "NAN" : value;
   const options = {
     chart: {
       type: "solidgauge",
@@ -61,7 +62,7 @@ const GaugeChart = ({ value = 65 }) => {
     },
     series: [
       {
-        data: [value],
+        data: [finalValue],
         innerRadius: "60%",
         radius: "100%",
       },

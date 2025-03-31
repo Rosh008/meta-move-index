@@ -67,7 +67,7 @@ export default function DetailsOverview({
           <DetailsInfoCard title="Followers" primaryValue={followers} />
         </div>
         <DetailsGaugeCard
-          value={sentimentInputFormatter(details.sentiment || "neutral")}
+          value={sentimentInputFormatter(details.sentiment || "not availabel")}
         />
       </div>
     </section>

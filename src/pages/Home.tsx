@@ -63,14 +63,14 @@ export default function Home() {
         listingData.map(async (project) => {
           const { contractAddress } = project;
           const projectData = await fetchProjectData(contractAddress);
-          const mindShareData = await fetchMindshareData(contractAddress).then(
-            (res) => res.data.data
-          );
+          const mindShareData = await fetchMindshareData(contractAddress)
+            .then((res) => res.data.data)
+            .catch(() => null);
 
           return {
             ...project,
             ...projectData.data[0],
-            mindShare: mindShareData.mindshareValue * 100,
+            mindShare: (mindShareData?.mindshareValue || 0) * 100,
           };
         })
       );

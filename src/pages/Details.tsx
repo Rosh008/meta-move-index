@@ -24,9 +24,9 @@ export default function Details() {
         (res) => res.data.data
       );
       const tokenData = await fetchProjectData(tokenId as string);
-      const mindShareData = await fetchMindshareData(tokenId).then(
-        (res) => res.data.data
-      );
+      const mindShareData = await fetchMindshareData(tokenId)
+        .then((res) => res.data.data)
+        .catch(() => null);
       // const twitterFollowers = await fetchTwitterFollowerCount(
       //   projectData.twitterHandle
       // ).then((res) => res.data.data);
@@ -39,8 +39,8 @@ export default function Details() {
       setDetails({
         ...projectData,
         ...tokenData.data[0],
-        mindShare: mindShareData.mindshareValue * 100,
-        sentiment: mindShareData.sentiment,
+        mindShare: (mindShareData?.mindshareValue || 0) * 100,
+        sentiment: mindShareData?.sentiment,
       });
     };
     fetchData();

@@ -43,5 +43,6 @@ export function parsePrice(str: string): number {
 export function sentimentInputFormatter(value: String): number {
   if (value === "positive") return 100;
   if (value === "neutral") return 50;
-  return 0;
+  if (value === "negative") return 0;
+  return -1;
 }
