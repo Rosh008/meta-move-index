@@ -81,7 +81,8 @@ export type ProjectData = dexScreenerTokenData & {
     token: string,
     isOnTeam: string,
     contractAddress: string,
-    mindShare: number
+    mindShare: number,
+    sentiment?: string
 }
 
 export interface MarketCapAndVolume {

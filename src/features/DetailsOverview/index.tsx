@@ -1,6 +1,11 @@
+import DetailsGaugeCard from "@/features/DetailsOverview/DetailsGaugeCard";
 import DetailsInfoCard from "@/features/DetailsOverview/DetailsInfoCard";
 import GridStatsCard from "@/features/OverviewGrid/GridStatsCard";
-import { formatDecimalWithSubscript, formatPrice } from "@/lib/helper";
+import {
+  formatDecimalWithSubscript,
+  formatPrice,
+  sentimentInputFormatter,
+} from "@/lib/helper";
 import { ProjectData } from "@/types/projects";
 
 interface DetailsOverviewProps {
@@ -61,7 +66,9 @@ export default function DetailsOverview({
           />
           <DetailsInfoCard title="Followers" primaryValue={followers} />
         </div>
-        {/* // Gauge chart */}
+        <DetailsGaugeCard
+          value={sentimentInputFormatter(details.sentiment || "neutral")}
+        />
       </div>
     </section>
   );

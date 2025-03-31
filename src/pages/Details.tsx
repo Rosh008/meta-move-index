@@ -40,6 +40,7 @@ export default function Details() {
         ...projectData,
         ...tokenData.data[0],
         mindShare: mindShareData.mindshareValue * 100,
+        sentiment: mindShareData.sentiment,
       });
     };
     fetchData();

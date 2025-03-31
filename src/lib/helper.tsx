@@ -39,3 +39,9 @@ export function parsePrice(str: string): number {
   }
   return parseFloat(str);
 }
+
+export function sentimentInputFormatter(value: String): number {
+  if (value === "positive") return 100;
+  if (value === "neutral") return 50;
+  return 0;
+}
