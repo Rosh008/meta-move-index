@@ -11,7 +11,7 @@ export function DetailsCard({ details }: DetailsCardProps) {
         <img
           className="h-16 w-16"
           alt="project-image"
-          src={details.info.imageUrl}
+          src={details.info?.imageUrl}
         />
         <div className="flex flex-col gap-2">
           <span className="text-lg">{details.projectName}</span>
