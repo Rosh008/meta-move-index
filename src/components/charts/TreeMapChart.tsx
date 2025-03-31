@@ -56,7 +56,10 @@ export default function TreeMapChart({ topMindShare }: TreeMapChartProps) {
         //   },
         // ],
         data: topMindShare.map((mindshare) => {
-          return { name: mindshare.projectName, value: mindshare.mindShare };
+          return {
+            name: mindshare.projectName,
+            value: Number(mindshare.mindShare.toFixed(2)),
+          };
         }),
       },
     ],
