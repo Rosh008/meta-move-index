@@ -45,14 +45,51 @@ export default function Request() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      projectName: "",
+      twitterHandle: "",
+      description: "",
+      websiteLink: "",
+      telegramLink: "",
+      githubLink: "",
+      contractAddress: "",
+      category: "",
+      framework: "",
+      devTwitter: "",
+      doxxed: undefined,
+      hasToken: undefined,
+      isOnTeam: undefined,
+    },
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    await postProjectForm(data);
-    reset();
+    await postProjectForm(data)
+      .then(() => {
+        alert(
+          "Form submitted successfully 🚀\nMindshare data will be reflected within 24 hours"
+        );
+      })
+      .catch(() => {
+        alert("Something went wrong, please try again");
+      });
+    reset({
+      projectName: "",
+      twitterHandle: "",
+      description: "",
+      websiteLink: "",
+      telegramLink: "",
+      githubLink: "",
+      contractAddress: "",
+      category: undefined, // ✅ Clears Select
+      framework: "",
+      devTwitter: "",
+      doxxed: undefined, // ✅ Clears RadioGroup
+      hasToken: undefined, // ✅ Clears RadioGroup
+      isOnTeam: undefined, // ✅ Clears RadioGroup
+    });
     setLoading(false);
   };
 
@@ -176,7 +213,10 @@ export default function Request() {
             control={control}
             rules={{ required: "Category is required" }}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
@@ -230,7 +270,10 @@ export default function Request() {
             control={control}
             rules={{ required: "This field is required" }}
             render={({ field }) => (
-              <RadioGroup onValueChange={field.onChange} value={field.value}>
+              <RadioGroup
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="r1-doxxed" />
                   <Label htmlFor="r1-doxxed">Yes</Label>
@@ -255,7 +298,10 @@ export default function Request() {
             control={control}
             rules={{ required: "This field is required" }}
             render={({ field }) => (
-              <RadioGroup onValueChange={field.onChange} value={field.value}>
+              <RadioGroup
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="r1-hasToken" />
                   <Label htmlFor="r1-hasToken">Yes</Label>
@@ -281,7 +327,10 @@ export default function Request() {
             control={control}
             rules={{ required: "This field is required" }}
             render={({ field }) => (
-              <RadioGroup onValueChange={field.onChange} value={field.value}>
+              <RadioGroup
+                onValueChange={field.onChange}
+                value={field.value ?? undefined}
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="r1-teamMember" />
                   <Label htmlFor="r1-teamMember">Yes</Label>
