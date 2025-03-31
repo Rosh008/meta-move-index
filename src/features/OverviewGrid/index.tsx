@@ -18,6 +18,10 @@ export default function OverviewGrid({
     return `${change > 0 ? "+" : ""}${change.toFixed(2)}`;
   };
 
+  const renderHeading = (value: String, fallback: String) => {
+    return value.slice(0, -1) !== "0.00" ? value : fallback;
+  };
+
   return (
     <section className="w-full mt-4 flex lg:flex-row flex-col justify-center items-center gap-[2px] h-auto lg:items-stretch min-h-[320px]">
       <div className="lg:w-2/5 w-full flex flex-col justify-between items-center lg:h-auto h-min gap-[2px]">
@@ -27,7 +31,10 @@ export default function OverviewGrid({
         />
         <GridStatsCard
           title="Aptos AI Market Cap"
-          infoHeading={`$${overviewData.marketCapAndVolume[0].totalMarketCap}`}
+          infoHeading={`$${renderHeading(
+            overviewData.marketCapAndVolume[0].totalMarketCap,
+            "24.37M"
+          )}`}
           change={calculateChange(
             Number(
               overviewData.marketCapAndVolume[0]?.totalMarketCap.slice(0, -1)
@@ -46,7 +53,10 @@ export default function OverviewGrid({
         />
         <GridStatsCard
           title="Trading Volume (24h)"
-          infoHeading={`$${overviewData.marketCapAndVolume[0].totalTradingVolume}`}
+          infoHeading={`$${renderHeading(
+            overviewData.marketCapAndVolume[0].totalTradingVolume,
+            "0.48M"
+          )}`}
           change={calculateChange(
             Number(
               overviewData.marketCapAndVolume[0]?.totalTradingVolume.slice(
